@@ -1,0 +1,49 @@
+Nishant Phule
+Backend Engineer | AI-focused
+Nashik, India | +91 9960435035 | nishantphule12@gmail.com | https://linkedin.com/in/nishant-phule-b274ba1b7 | https://github.com/Nishantphule
+
+SUMMARY
+Backend engineer with 2+ years shipping production APIs, secure auth, and applied LLM features. Promoted to Software Engineer in Dec 2025; currently converting legacy systems to React/Node while building an LLM-powered project-management product. Upskilling in AI engineering with Airtribe since Nov 2025.
+
+SKILLS
+Node.js, Express.js, Django, Python, JavaScript, MongoDB, MySQL, REST APIs, OpenRouter/LLMs, n8n, Razorpay, Docker, AWS, Firebase, React, React Native/Expo, Git, CI/CD, Postman
+
+EXPERIENCE
+
+Software Engineer, Four Pillars Infotech India Pvt. Ltd. | Dec 2025 – Present
+Mumbai
+- From Feb 2026, led a small engineering team on a client engagement — sprints, delivery, feature releases.
+- Core contributor on legacy conversion to React and Node.js — services, UI, and production rollout.
+- NAD DigiLocker integration for secure document verification and authentication.
+- n8n flows for backup management and real-time alerting; application security (auth, RBAC, API hardening) and admin work.
+- Building and shipping the internal Project Management Tool (React, Node, MongoDB, Razorpay, OpenRouter LLMs); used internally and being scoped for launch.
+
+Associate Software Engineer, Four Pillars Infotech India Pvt. Ltd. | Jun 2024 – Dec 2025
+Mumbai
+- Full-stack delivery across MSBTE digital government portal projects (backend first).
+- Migrated 5 legacy PHP modules to Node.js and Django.
+- Contributed to a Django admin dashboard (RBAC and analytics) as part of a team.
+
+Jr. Software Developer, Increditex Software Solutions Pvt. Ltd. | Feb 2024 – May 2024
+Nashik
+- Built Node.js/Express APIs with Sequelize for a matrimony platform, including data models and business workflows.
+- Shipped a React (Bootstrap) frontend for a sports-news site and supported deployment and QA.
+
+Freelance Web Developer, Self-employed | Nov 2023 – Jan 2024
+Nashik
+- Delivered full-stack MERN applications with Razorpay payment integration, hosted on AWS.
+- Worked directly with clients on requirements, delivery, and production hosting.
+
+FLAGSHIP PROJECT — PROJECT MANAGEMENT TOOL
+Internal product; being scoped for launch | React, Node.js/Express, TypeScript, MongoDB
+- Designed a multi-tenant Express API on MongoDB: organization/team/task schemas, JWT access + httpOnly refresh cookies, Socket.IO notifications, Zod validation, and Helmet/rate-limiting.
+- Implemented Razorpay Standard Checkout: order creation, client confirmation, and HMAC-verified payment.captured webhooks that activate Free/Pro/Pro+ subscriptions.
+- Shipped OpenRouter LLM features with deterministic fallbacks so AI never takes down the API: task generation (title/description/tags), chat-thread summarization and task extraction, an in-thread assistant, and suggest-only bug-severity classification.
+
+EDUCATION
+AI-First Backend Engineer — Airtribe (in progress) | Nov 2025 – Present
+Full Stack Web Development — Guvi, IITM Research Park, Chennai | Jan 2022 – Aug 2023
+B.E. Mechanical Engineering — GES College of Engineering, Nashik, CGPA 7.83 | Aug 2018 – Jun 2023
+
+ACHIEVEMENTS
+100 Days LeetCode badge (May 2024) | Top 10, Upskill Mafia Online Web Hackathon | GeeksforGeeks, Udemy, 100xDevs certifications

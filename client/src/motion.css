@@ -439,6 +439,9 @@
   width: min(720px, 100%);
   max-height: min(86vh, 900px);
   overflow: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 12px;

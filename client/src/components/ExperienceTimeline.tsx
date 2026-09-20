@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { experience } from '../data/profile';
+import { dateRangeToIso } from '../lib/jobDates';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 import { HeadingReveal } from '../motion/Reveal';
 
@@ -82,12 +83,10 @@ export default function ExperienceTimeline() {
                   Feb 2026 · stepped into team-lead capacity
                 </p>
               ) : null}
-              <div className="job-head">
-                <h3>
-                  {job.title} · {job.company}
-                </h3>
-                <span className="dates">{job.dates}</span>
-              </div>
+              <h3>
+                {job.title}, {job.company} |{' '}
+                <time dateTime={dateRangeToIso(job.dates).start}>{job.dates}</time>
+              </h3>
               <p className="meta">{job.location}</p>
               <ul>
                 {job.bullets.map((b) => (

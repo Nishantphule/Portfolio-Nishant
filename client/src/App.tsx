@@ -18,6 +18,7 @@ import Reveal, { HeadingReveal } from './motion/Reveal';
 import { useActiveSection } from './hooks/useActiveSection';
 import { useTraceSections } from './hooks/useTraceSections';
 import { ChatOpenProvider, useChatOpen } from './hooks/useChatOpen';
+import JsonLd from './components/JsonLd';
 
 const ChatWidget = lazy(() => import('./components/ChatWidget'));
 const SkillGalaxy = lazy(() => import('./components/SkillGalaxy'));
@@ -45,6 +46,7 @@ function AppShell() {
 
   return (
     <SmoothScroll>
+      <JsonLd />
       <Starfield />
       <IntroMark />
       <CustomCursor />

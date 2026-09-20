@@ -102,7 +102,7 @@ function camForStop(stop: number) {
 
 function SkillList() {
   return (
-    <div className="galaxy-list">
+    <div className="galaxy-list" data-lenis-prevent data-lenis-prevent-wheel data-lenis-prevent-touch>
       {skillGroups.map((g) => (
         <section key={g.id}>
           <h3>{g.label}</h3>
@@ -140,6 +140,16 @@ export default function SkillGalaxy() {
 
   return (
     <div className="galaxy">
+      {can3d && !listMode ? (
+        <ul className="sr-only">
+          {skills.map((s) => (
+            <li key={s.name}>
+              {s.name}
+              {s.blurb ? ` — ${s.blurb}` : ''}
+            </li>
+          ))}
+        </ul>
+      ) : null}
       {can3d ? (
         <button type="button" className="galaxy-toggle" onClick={() => setListMode((v) => !v)}>
           {listMode ? 'View galaxy' : 'View as list'}

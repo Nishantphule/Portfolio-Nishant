@@ -85,6 +85,9 @@ export default function Projects() {
           >
             <motion.div
               className="project-modal-card"
+              data-lenis-prevent
+              data-lenis-prevent-wheel
+              data-lenis-prevent-touch
               layoutId={
                 reduced ? undefined : open === 'flagship' ? 'project-flagship' : `project-${open}`
               }

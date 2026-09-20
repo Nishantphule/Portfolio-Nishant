@@ -15,6 +15,7 @@ export const profile = {
   resumes: [
     { label: '1-page PDF', href: '/Nishant-Phule-Resume-1page.pdf' },
     { label: '2-page PDF', href: '/Nishant-Phule-Resume-2page.pdf' },
+    { label: 'ATS / plain text', href: '/Nishant-Phule-Resume-ATS.txt' },
   ],
 } as const;
 
