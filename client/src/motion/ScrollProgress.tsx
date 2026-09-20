@@ -16,11 +16,16 @@ export default function ScrollProgress() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  const current = SECTIONS.find((s) => s.id === active) ?? SECTIONS[0];
+
   return (
     <>
       <div className="scroll-bar" aria-hidden="true">
         <div className="scroll-bar-fill" style={{ transform: `scaleX(${pct})` }} />
       </div>
+      <p className="hud-status" aria-hidden="true" data-accent={current.accent}>
+        [ {current.label.toUpperCase()} ]
+      </p>
       <nav className="dot-nav" aria-label="Section">
         {SECTIONS.map((s) => (
           <a

@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { suggestedQuestions } from '../data/profile';
+import { useChatOpen } from '../hooks/useChatOpen';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 
 type ChatRole = 'user' | 'assistant';
@@ -32,7 +34,7 @@ function StreamBody({ text, animate }: { text: string; animate: boolean }) {
 
 export default function ChatWidget() {
   const reduced = usePrefersReducedMotion();
-  const [open, setOpen] = useState(false);
+  const { open, setOpen } = useChatOpen();
   const [input, setInput] = useState('');
   const [pending, setPending] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -43,10 +45,37 @@ export default function ChatWidget() {
     },
   ]);
   const logRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     logRef.current?.scrollTo({ top: logRef.current.scrollHeight });
   }, [messages, open]);
+
+  useEffect(() => {
+    if (!open) return undefined;
+
+    function pathHas(e: Event, className: string) {
+      return e.composedPath().some((n) => n instanceof Element && n.classList.contains(className));
+    }
+
+    function onPointerDown(e: Event) {
+      if (pathHas(e, 'chat-panel') || pathHas(e, 'header-ask')) return;
+      setOpen(false);
+    }
+
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') setOpen(false);
+    }
+
+    window.addEventListener('pointerdown', onPointerDown, true);
+    window.addEventListener('mousedown', onPointerDown, true);
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      window.removeEventListener('pointerdown', onPointerDown, true);
+      window.removeEventListener('mousedown', onPointerDown, true);
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [open, setOpen]);
 
   async function send(text: string) {
     const content = text.trim();
@@ -82,8 +111,14 @@ export default function ChatWidget() {
 
   const ease = [0.22, 1, 0.36, 1] as const;
 
-  return (
-    <div className="chat-root">
+  const ui = (
+    <div
+      className={`chat-root${open ? ' is-open' : ''}`}
+      ref={rootRef}
+      onPointerDown={(e) => {
+        if (e.target === e.currentTarget) setOpen(false);
+      }}
+    >
       <AnimatePresence>
         {open ? (
           <motion.div
@@ -94,6 +129,7 @@ export default function ChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.98 }}
             transition={{ duration: reduced ? 0.01 : 0.32, ease }}
+            onPointerDown={(e) => e.stopPropagation()}
           >
             <header>
               <div>
@@ -159,7 +195,7 @@ export default function ChatWidget() {
       {!open ? (
         <button
           type="button"
-          className="chat-toggle chat-toggle-pulse"
+          className="chat-toggle chat-toggle-pulse chat-ask-fun"
           onClick={() => setOpen(true)}
           aria-expanded={false}
           data-cursor="Ask"
@@ -169,4 +205,6 @@ export default function ChatWidget() {
       ) : null}
     </div>
   );
+
+  return createPortal(ui, document.body);
 }

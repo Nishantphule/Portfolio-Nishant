@@ -2,6 +2,7 @@ import { lazy, Suspense, useState, type FormEvent } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Check, Loader2, Mail, Send } from 'lucide-react';
 import { profile, whatsappHref } from '../data/profile';
+import { isGibberishMessage } from '../lib/messageSense';
 import Magnetic from '../motion/Magnetic';
 import { HeadingReveal } from '../motion/Reveal';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
@@ -108,6 +109,17 @@ export default function Contact() {
     e.preventDefault();
     setFormError('');
     setFields({});
+
+    if (isGibberishMessage(values.message)) {
+      setStatus('error');
+      setFields({
+        message: 'Use a short sentence with real words — keyboard smash will not send.',
+      });
+      setFormError('That message does not look like a real note. Write a short sentence about why you are reaching out.');
+      bumpShake();
+      return;
+    }
+
     setStatus('sending');
 
     try {
@@ -128,6 +140,18 @@ export default function Contact() {
       if (res.status === 429) {
         setStatus('limited');
         setFormError(data?.error || 'Too many messages. Try again later.');
+        bumpShake();
+        return;
+      }
+      if (data?.code === 'SENSE_REJECT') {
+        setStatus('error');
+        setFields({
+          message: 'Use a short sentence with real words — keyboard smash will not send.',
+        });
+        setFormError(
+          data.error ||
+            'That message does not look like a real note. Write a short sentence about why you are reaching out.',
+        );
         bumpShake();
         return;
       }
@@ -153,7 +177,7 @@ export default function Contact() {
   }
 
   return (
-    <section className="block contact-finale" id="contact">
+    <section className="block contact-finale" id="contact" data-accent="magenta">
       <div className="contact-grid-fallback" />
       <Suspense fallback={null}>
         <ContactBackdrop />
@@ -296,7 +320,7 @@ export default function Contact() {
                   </p>
                 ) : null}
 
-                <Magnetic>
+                <div className="contact-actions">
                   <button
                     type="submit"
                     className="btn btn-magenta"
@@ -313,7 +337,7 @@ export default function Contact() {
                       </>
                     )}
                   </button>
-                </Magnetic>
+                </div>
               </motion.form>
             )}
           </AnimatePresence>

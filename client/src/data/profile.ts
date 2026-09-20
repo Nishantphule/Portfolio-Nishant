@@ -123,32 +123,189 @@ export const otherProjects = [
   },
 ] as const;
 
-export const skillGroups = [
+export type SkillCategory = 'backend' | 'ai' | 'security' | 'cloud' | 'frontend' | 'payments';
+
+export type Skill = {
+  name: string;
+  category: SkillCategory;
+  icon?: string;
+  blurb?: string;
+};
+
+export const SKILL_META: Record<
+  SkillCategory,
+  { label: string; accent: 'cyan' | 'amber' | 'magenta' | 'violet' | 'lime'; shape: 'circle' | 'diamond' }
+> = {
+  backend: { label: 'Backend', accent: 'cyan', shape: 'circle' },
+  ai: { label: 'AI / automation', accent: 'amber', shape: 'circle' },
+  security: { label: 'Security', accent: 'magenta', shape: 'circle' },
+  cloud: { label: 'Cloud / DevOps', accent: 'violet', shape: 'circle' },
+  frontend: { label: 'Frontend / mobile', accent: 'lime', shape: 'circle' },
+  payments: { label: 'Payments', accent: 'cyan', shape: 'diamond' },
+};
+
+export const SKILL_CATEGORY_ORDER: SkillCategory[] = [
+  'backend',
+  'ai',
+  'security',
+  'cloud',
+  'frontend',
+  'payments',
+];
+
+export const skills: Skill[] = [
   {
-    label: 'Backend',
-    items: ['Node.js', 'Express.js', 'Django', 'Python', 'REST APIs', 'MongoDB', 'MySQL', 'Sequelize'],
+    name: 'Node.js',
+    category: 'backend',
+    icon: 'nodedotjs',
+    blurb: 'Used on the PM tool API, matrimony services, and legacy conversion to Node.js.',
   },
   {
-    label: 'AI / automation',
-    items: ['OpenRouter / LLMs', 'n8n agents', 'Prompt + fallback design', 'Embeddings'],
+    name: 'Express.js',
+    category: 'backend',
+    icon: 'express',
+    blurb: 'Multi-tenant Express API on the Project Management Tool; matrimony platform APIs.',
   },
   {
-    label: 'Security',
-    items: ['JWT / OTP auth', 'RBAC', 'API hardening', 'Rate limiting'],
+    name: 'Django',
+    category: 'backend',
+    icon: 'django',
+    blurb: 'Five PHP modules migrated to Node.js and Django; Django admin dashboard.',
   },
   {
-    label: 'Cloud / DevOps',
-    items: ['Docker', 'AWS', 'Git / GitHub', 'CI/CD basics', 'bash / cron', 'Postman'],
+    name: 'Python',
+    category: 'backend',
+    icon: 'python',
+    blurb: 'Used on the Django admin dashboard and PHP-to-Django migrations.',
   },
   {
-    label: 'Frontend / mobile',
-    items: ['React', 'React Native', 'Expo', 'Firebase', 'HTML/CSS'],
+    name: 'REST APIs',
+    category: 'backend',
+    icon: 'lucide:network',
+    blurb: 'Production APIs across MSBTE portals, the PM tool, and the matrimony platform.',
   },
   {
-    label: 'Payments',
-    items: ['Razorpay orders', 'Signature verify', 'Webhooks'],
+    name: 'MongoDB',
+    category: 'backend',
+    icon: 'mongodb',
+    blurb: 'Data store for the Project Management Tool and freelance MERN apps.',
   },
-] as const;
+  { name: 'MySQL', category: 'backend', icon: 'mysql' },
+  {
+    name: 'Sequelize',
+    category: 'backend',
+    icon: 'sequelize',
+    blurb: 'Node.js/Express APIs with Sequelize for a matrimony platform.',
+  },
+  {
+    name: 'OpenRouter / LLMs',
+    category: 'ai',
+    icon: 'lucide:sparkles',
+    blurb: 'OpenRouter on the PM tool with deterministic fallbacks so AI never 500s the API.',
+  },
+  {
+    name: 'n8n agents',
+    category: 'ai',
+    icon: 'n8n',
+    blurb: 'n8n flows for backup management and real-time alerting.',
+  },
+  {
+    name: 'Prompt + fallback design',
+    category: 'ai',
+    icon: 'lucide:git-branch',
+    blurb: 'Deterministic fallbacks for task generation, summaries, and suggest-only classification.',
+  },
+  { name: 'Embeddings', category: 'ai', icon: 'lucide:layers' },
+  {
+    name: 'JWT / OTP auth',
+    category: 'security',
+    icon: 'lucide:key-round',
+    blurb: 'JWT access plus httpOnly refresh cookies on the PM tool API.',
+  },
+  {
+    name: 'RBAC',
+    category: 'security',
+    icon: 'lucide:shield',
+    blurb: 'Org-scoped RBAC on the PM tool; Django admin role-based access.',
+  },
+  {
+    name: 'API hardening',
+    category: 'security',
+    icon: 'lucide:shield-check',
+    blurb: 'Application security — auth, RBAC, API hardening — plus Helmet on the PM tool.',
+  },
+  {
+    name: 'Rate limiting',
+    category: 'security',
+    icon: 'lucide:gauge',
+    blurb: 'Auth rate limits on the PM tool API.',
+  },
+  { name: 'Docker', category: 'cloud', icon: 'docker' },
+  {
+    name: 'AWS',
+    category: 'cloud',
+    icon: 'lucide:cloud',
+    blurb: 'Freelance MERN apps hosted on AWS.',
+  },
+  {
+    name: 'Git / GitHub',
+    category: 'cloud',
+    icon: 'github',
+    blurb: 'GitHub activity on Project Management Tool tasks.',
+  },
+  { name: 'CI/CD basics', category: 'cloud', icon: 'lucide:workflow' },
+  { name: 'bash / cron', category: 'cloud', icon: 'lucide:terminal' },
+  { name: 'Postman', category: 'cloud', icon: 'postman' },
+  {
+    name: 'React',
+    category: 'frontend',
+    icon: 'react',
+    blurb: 'PM tool client and legacy conversion to React and Node.js.',
+  },
+  {
+    name: 'React Native',
+    category: 'frontend',
+    icon: 'react',
+    blurb: 'Expo (React Native) for mobile push notifications on a client web + mobile project.',
+  },
+  {
+    name: 'Expo',
+    category: 'frontend',
+    icon: 'expo',
+    blurb: 'Expo (React Native) for mobile push notifications on a client web + mobile project.',
+  },
+  {
+    name: 'Firebase',
+    category: 'frontend',
+    icon: 'firebase',
+    blurb: 'React/Node with Firebase and Expo for a client web + mobile project.',
+  },
+  { name: 'HTML/CSS', category: 'frontend', icon: 'html5' },
+  {
+    name: 'Razorpay orders',
+    category: 'payments',
+    icon: 'razorpay',
+    blurb: 'Razorpay Standard Checkout — POST /api/billing/checkout creates an order.',
+  },
+  {
+    name: 'Signature verify',
+    category: 'payments',
+    icon: 'lucide:badge-check',
+    blurb: 'HMAC-verified Razorpay webhooks on payment.captured / order.paid.',
+  },
+  {
+    name: 'Webhooks',
+    category: 'payments',
+    icon: 'lucide:webhook',
+    blurb: 'HMAC-verified webhooks on payment.captured / order.paid.',
+  },
+];
+
+export const skillGroups = SKILL_CATEGORY_ORDER.map((id) => ({
+  id,
+  ...SKILL_META[id],
+  items: skills.filter((s) => s.category === id),
+}));
 
 export const suggestedQuestions = [
   "What's Nishant's strongest backend project?",

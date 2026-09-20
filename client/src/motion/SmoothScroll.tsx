@@ -1,5 +1,6 @@
 import { useEffect, type ReactNode } from 'react';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
+import { registerScroller } from '../lib/smoothScroll';
 
 export default function SmoothScroll({ children }: { children: ReactNode }) {
   const reduced = usePrefersReducedMotion();
@@ -26,6 +27,7 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
         easing: (t: number) => Math.min(1, 1.001 - 2 ** (-10 * t)),
         smoothWheel: true,
       });
+      registerScroller(lenis);
 
       lenis.on('scroll', ScrollTrigger.update);
 
@@ -37,6 +39,7 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
 
       destroy = () => {
         gsap.ticker.remove(tickerFn);
+        registerScroller(null);
         lenis.destroy();
       };
     })();

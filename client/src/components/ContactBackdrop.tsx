@@ -61,8 +61,10 @@ export default function ContactBackdrop() {
       ctx.clearRect(0, 0, w, h);
       ctx.lineWidth = 1;
       for (const d of dots) {
-        d.x += d.vx + (mouse.x - 0.5) * 0.00015;
-        d.y += d.vy + (mouse.y - 0.5) * 0.00015;
+        d.vx += (0.5 - d.x) * 0.000018;
+        d.vy += (0.5 - d.y) * 0.000018;
+        d.x += d.vx + (mouse.x - 0.5) * 0.00012;
+        d.y += d.vy + (mouse.y - 0.5) * 0.00012;
         if (d.x < 0 || d.x > 1) d.vx *= -1;
         if (d.y < 0 || d.y > 1) d.vy *= -1;
         d.x = Math.min(1, Math.max(0, d.x));

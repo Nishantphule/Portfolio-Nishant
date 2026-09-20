@@ -58,7 +58,7 @@ export default function ExperienceTimeline() {
   }, [reduced]);
 
   return (
-    <section className="block" id="experience" ref={root}>
+    <section className="block" id="experience" ref={root} data-accent="lime">
       <HeadingReveal>
         <h2>Experience</h2>
       </HeadingReveal>

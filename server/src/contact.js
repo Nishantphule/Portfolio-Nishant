@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import { config } from './config.js';
+import { autoReplyHtml, autoReplyText, inboundHtml, inboundText } from './mailTemplates.js';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -21,14 +22,6 @@ function fromAddress() {
   return config.email.from || config.email.user;
 }
 
-function escapeHtml(value) {
-  return String(value)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
-
 function asString(value) {
   return String(value ?? '').trim();
 }
@@ -40,6 +33,26 @@ export function isSpamMessage(message) {
   if (message.length >= 10 && letters / message.length < 0.25) return true;
   const withoutUrls = message.replace(/https?:\/\/\S+/gi, '').replace(/\s+/g, '');
   if (withoutUrls.length < 8 && links.length >= 1) return true;
+  return false;
+}
+
+export function isGibberishMessage(message) {
+  const text = String(message || '').trim();
+  const words = text.toLowerCase().match(/[a-z]{2,}/g) || [];
+  const letters = (text.match(/[a-z]/gi) || []).join('');
+  if (!letters) return true;
+  if (/(.)\1{4,}/i.test(text)) return true;
+  if (/[bcdfghjklmnpqrstvwxz]{6,}/i.test(text)) return true;
+
+  const vowels = (letters.match(/[aeiouy]/gi) || []).length;
+  if (letters.length >= 12 && vowels / letters.length < 0.22) return true;
+
+  if (words.length < 2) {
+    if (words.length === 0) return true;
+    const word = words[0];
+    if (word.length >= 14) return true;
+    if ((word.match(/[aeiouy]/g) || []).length / word.length < 0.28) return true;
+  }
   return false;
 }
 
@@ -71,8 +84,14 @@ export function parseContact(body) {
   if (Object.keys(fields).length) {
     return { ok: false, error: 'Please fix the highlighted fields.', fields };
   }
-  if (isSpamMessage(message)) {
-    return { ok: false, error: 'That message looks like spam. Write a short note in your own words.' };
+  if (isSpamMessage(message) || isGibberishMessage(message)) {
+    return {
+      ok: false,
+      error: 'That message does not look like a real note. Write a short sentence about why you are reaching out.',
+      fields: {
+        message: 'Use a short sentence with real words — keyboard smash will not send.',
+      },
+    };
   }
 
   return {
@@ -86,42 +105,16 @@ export async function sendContactEmails(input) {
   const { name, email, company, message, page, userAgent } = input;
   const when = new Date().toISOString();
   const mailer = transporter();
-
-  const text = [
-    `New portfolio message`,
-    `Time: ${when}`,
-    `Name: ${name}`,
-    `Email: ${email}`,
-    company ? `Company: ${company}` : null,
-    page ? `Page: ${page}` : null,
-    userAgent ? `User-Agent: ${userAgent}` : null,
-    ``,
-    message,
-  ]
-    .filter(Boolean)
-    .join('\n');
-
-  const html = `
-    <div style="font-family:Calibri,Arial,sans-serif;line-height:1.45;color:#1a1a1a">
-      <h2 style="color:#1B365D;margin:0 0 12px">New portfolio message</h2>
-      <p><strong>Time:</strong> ${escapeHtml(when)}</p>
-      <p><strong>Name:</strong> ${escapeHtml(name)}</p>
-      <p><strong>Email:</strong> ${escapeHtml(email)}</p>
-      ${company ? `<p><strong>Company:</strong> ${escapeHtml(company)}</p>` : ''}
-      ${page ? `<p><strong>Page:</strong> ${escapeHtml(page)}</p>` : ''}
-      ${userAgent ? `<p><strong>User-Agent:</strong> ${escapeHtml(userAgent)}</p>` : ''}
-      <hr style="border:none;border-top:1px solid #cfd4da;margin:16px 0" />
-      <p style="white-space:pre-wrap">${escapeHtml(message)}</p>
-    </div>
-  `;
+  const payload = { name, email, company, message, page, userAgent, when };
 
   await mailer.sendMail({
     from: fromAddress(),
     to: config.email.to,
     replyTo: email,
-    subject: `Portfolio contact: ${name}`,
-    text,
-    html,
+    subject: `[Portfolio] Contact · ${name}`,
+    headers: { 'X-Portfolio-Source': 'contact-form' },
+    text: inboundText(payload),
+    html: inboundHtml(payload),
   });
 
   try {
@@ -129,15 +122,8 @@ export async function sendContactEmails(input) {
       from: fromAddress(),
       to: email,
       subject: 'Thanks for reaching out — Nishant Phule',
-      text: [
-        `Hi ${name},`,
-        ``,
-        `Thanks for reaching out — I'll get back to you within a day or two.`,
-        `In the meantime: linkedin.com/in/nishant-phule-b274ba1b7`,
-        `Resume PDFs are on the portfolio (1-page and 2-page).`,
-        ``,
-        `— Nishant`,
-      ].join('\n'),
+      text: autoReplyText({ name }),
+      html: autoReplyHtml({ name }),
     });
   } catch (err) {
     console.warn('Contact auto-reply failed', err instanceof Error ? err.message : err);

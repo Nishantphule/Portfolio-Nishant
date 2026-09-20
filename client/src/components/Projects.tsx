@@ -15,7 +15,7 @@ export default function Projects() {
   const extra = otherProjects.find((p) => p.name === open);
 
   return (
-    <section className="block" id="projects">
+    <section className="block" id="projects" data-accent="amber">
       <HeadingReveal>
         <h2>Projects</h2>
       </HeadingReveal>

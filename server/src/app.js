@@ -4,6 +4,7 @@ import rateLimit from 'express-rate-limit';
 import { config } from './config.js';
 import { SYSTEM_PROMPT } from './systemPrompt.js';
 import { mailConfigured, parseContact, sendContactEmails } from './contact.js';
+import { senseCheck } from './senseCheck.js';
 
 export const app = express();
 app.set('trust proxy', 1);
@@ -61,6 +62,13 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
     return res.status(503).json({
       error: 'Mail is not configured yet. Set EMAIL_HOST, EMAIL_USER, and EMAIL_PASS.',
       code: 'MAIL_NOT_CONFIGURED',
+    });
+  }
+  const sense = await senseCheck(parsed.data);
+  if (!sense.ok) {
+    return res.status(400).json({
+      error: 'That message does not look like a real note. Write a short sentence about why you are reaching out.',
+      code: 'SENSE_REJECT',
     });
   }
   try {

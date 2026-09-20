@@ -73,7 +73,11 @@ export default function ArchitectureFlow() {
             <strong>{layer.label}</strong>
             <span>{layer.hint}</span>
           </div>
-          {i < architectureLayers.length - 1 ? <div className="arch-pipe" aria-hidden="true" /> : null}
+          {i < architectureLayers.length - 1 ? (
+            <div className="arch-pipe" aria-hidden="true">
+              <span className="arch-flow" />
+            </div>
+          ) : null}
         </div>
       ))}
     </div>

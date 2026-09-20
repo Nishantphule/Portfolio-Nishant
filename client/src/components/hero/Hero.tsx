@@ -1,11 +1,7 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { profile } from '../../data/profile';
-import Magnetic from '../../motion/Magnetic';
 import { useFinePointer, usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
-import { HERO_VARIANT } from './variant';
-
-const HeroNetwork = lazy(() => import('./HeroNetwork'));
 
 const GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%';
 
@@ -46,28 +42,22 @@ function ScrambleKicker({ text }: { text: string }) {
 export default function Hero() {
   const reduced = usePrefersReducedMotion();
   const fine = useFinePointer();
-  const [webgl, setWebgl] = useState(false);
-
-  useEffect(() => {
-    if (reduced || HERO_VARIANT !== 'network') return undefined;
-    if (typeof navigator !== 'undefined' && navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4) {
-      return undefined;
-    }
-
-    const id = window.setTimeout(() => setWebgl(true), 180);
-    return () => window.clearTimeout(id);
-  }, [reduced]);
 
   return (
     <section className="hero" id="top">
-      {webgl && fine ? (
-        <Suspense fallback={null}>
-          <HeroNetwork />
-        </Suspense>
-      ) : (
-        <div className="hero-network hero-network-static" aria-hidden="true" />
-      )}
+      <div className="hero-horizon" aria-hidden="true" />
       <div className="hero-copy">
+        <div className="hud-frame" aria-hidden="true">
+          <span className="hud-br hud-br-tl" />
+          <span className="hud-br hud-br-tr" />
+          <span className="hud-br hud-br-bl" />
+          <span className="hud-br hud-br-br" />
+        </div>
+        <ul className="hud-readouts" aria-hidden="true">
+          <li>Systems: online</li>
+          <li>Role: backend / AI</li>
+          <li>Location: {profile.location}</li>
+        </ul>
         <motion.p
           className="kicker"
           initial={reduced ? false : { opacity: 0, y: 10 }}
@@ -96,20 +86,6 @@ export default function Hero() {
         </motion.h1>
         <p className="role">{profile.location}</p>
         <p className="one-liner">{profile.oneLiner}</p>
-        <div className="cta-row">
-          {profile.resumes.map((r) => (
-            <Magnetic key={r.href}>
-              <a className="btn btn-cyan" href={r.href} download data-cursor="Save">
-                Download {r.label}
-              </a>
-            </Magnetic>
-          ))}
-          <Magnetic>
-            <a className="btn btn-magenta" href="#chat" data-cursor="Ask">
-              Ask about me
-            </a>
-          </Magnetic>
-        </div>
       </div>
     </section>
   );

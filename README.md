@@ -65,7 +65,11 @@ Model id is a constant in [server/src/config.js](server/src/config.js). Swap tha
 
 **Resend / SendGrid:** use their SMTP credentials the same way (`EMAIL_HOST` + user/pass). No code change.
 
-Anti-spam: hidden `website` honeypot (filled bots get a fake 200 and no mail); 5 requests / hour / IP; simple heuristics (too many URLs / almost no letters). WhatsApp is a client `wa.me` link from [client/src/data/profile.ts](client/src/data/profile.ts) (`919960435035`, overridable with `VITE_WHATSAPP_NUMBER`).
+Anti-spam: hidden `website` honeypot (filled bots get a fake 200 and no mail); 5 requests / hour / IP; URL/letter heuristics; then a fail-open OpenRouter sense-check that blocks keyboard-smash (`400 SENSE_REJECT`) but still sends if the model is missing or times out. WhatsApp is a client `wa.me` link from [client/src/data/profile.ts](client/src/data/profile.ts) (`919960435035`, overridable with `VITE_WHATSAPP_NUMBER`).
+
+Inbound mail subject is `[Portfolio] Contact · {name}` plus header `X-Portfolio-Source: contact-form`. Gmail cannot be labelled over SMTP — create a filter once: Gmail → Settings → Filters → **Subject contains `[Portfolio]`** → Apply label **Portfolio** (optionally Skip Inbox).
+
+HTML inbound and auto-reply use the Signal Trace dark/cyan theme (table + inline CSS).
 
 ## Resume PDFs
 
