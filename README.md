@@ -89,13 +89,32 @@ This writes PDFs next to the HTML and copies the two resume PDFs into `client/pu
 
 Cover letter placeholders (find-replace per application): `{{DATE}}`, `{{HIRING_MANAGER}}`, `{{COMPANY_NAME}}`, `{{ROLE_TITLE}}`, `{{WHY_THIS_COMPANY}}`, `{{TODO}}` (notice period).
 
-## Deploy
+## Deploy (Vercel — site + API, same origin)
 
-1. **API** (Render / Railway): root `server/`, start `npm start`, env `OPENROUTER_API_KEY`, SMTP `EMAIL_*` vars, `CLIENT_ORIGIN` (your live site origin, no trailing slash), `PORT` as the host requires.
-2. **Site** (Vercel / Netlify): root `client/`, build `npm run build`, publish `dist`. Set `VITE_API_URL` to the public API origin (no trailing slash).
-3. Confirm CORS: `CLIENT_ORIGIN` must match the site origin exactly.
+One Vercel project from the **repo root** (not `client/` alone). The Vite app is the static site; Express is a serverless function at `/api/*`. Leave `VITE_API_URL` unset so the browser calls `/api/chat` and `/api/contact` on the same host.
 
-Do not commit `server/.env`.
+1. Push this repo to GitHub.
+2. [vercel.com](https://vercel.com) → Add New → Project → import the repo.
+3. Framework Preset: **Other**. Root Directory: **leave empty** (repo root). `vercel.json` already sets install/build/output.
+4. Environment variables (Production + Preview):
+
+| Variable | Value |
+|---|---|
+| `CLIENT_ORIGIN` | Your live origin, no trailing slash — e.g. `https://your-project.vercel.app` or the custom domain |
+| `OPENROUTER_API_KEY` | `sk-or-v1-...` |
+| `EMAIL_HOST` / `EMAIL_PORT` / `EMAIL_USER` / `EMAIL_PASS` | SMTP (Mailtrap locally; Gmail App Password / Resend / SendGrid in prod) |
+| `EMAIL_TO` | `nishantphule12@gmail.com` (optional; this is the default) |
+| `EMAIL_FROM` | Optional; defaults to `EMAIL_USER` |
+
+Do **not** set `VITE_API_URL` for this setup. Do **not** commit `server/.env`.
+
+5. Deploy. Check `https://<your-app>/api/health` → `{ "ok": true }`, then the site, chat, and contact form.
+
+Hobby plans cap serverless functions at ~10s. Chat and SMTP usually fit; if a send times out, try a closer SMTP host or a Pro plan.
+
+Local dev is unchanged: `server` on :5000, `client` on :5173 with the Vite `/api` proxy.
+
+**Split hosts instead** (site on Vercel, API on Render/Railway): Root Directory `client/`, build `npm run build`, output `dist`, set `VITE_API_URL` to the API origin. On the API host: root `server/`, `npm start`, env `OPENROUTER_API_KEY`, `EMAIL_*`, `CLIENT_ORIGIN` = the Vercel origin, `PORT` as the host requires. CORS must match exactly.
 
 ## Notice period
 

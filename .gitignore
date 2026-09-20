@@ -9,3 +9,4 @@ Thumbs.db
 client/dist/
 server/dist/
 resume-assets/verify/
+.vercel/
