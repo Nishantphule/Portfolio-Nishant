@@ -1,0 +1,11 @@
+{
+  "name": "resume-assets",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "print": "node print-pdf.mjs"
+  },
+  "devDependencies": {
+    "puppeteer": "^25.11.0"
+  }
+}

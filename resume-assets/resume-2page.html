@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nishant Phule — Resume (2 page)</title>
+  <style>
+    :root {
+      --ink: #1a1a1a;
+      --navy: #1B365D;
+      --muted: #3d3d3d;
+      --rule: #1B365D;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: #e8eaed;
+      color: var(--ink);
+      font-family: Calibri, Arial, sans-serif;
+      font-size: 11pt;
+      line-height: 1.38;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .toolbar {
+      max-width: 210mm;
+      margin: 12px auto;
+      padding: 10px 14px;
+      background: #fff;
+      border: 1px solid #cfd4da;
+      font-size: 12px;
+      color: #333;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .toolbar button {
+      font: inherit;
+      background: var(--navy);
+      color: #fff;
+      border: 0;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+    .toolbar span { color: #555; }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto 24px;
+      padding: 12mm;
+      background: #fff;
+    }
+
+    header { text-align: center; margin-bottom: 10px; }
+    h1 {
+      font-size: 20pt;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--navy);
+      text-transform: uppercase;
+      line-height: 1.15;
+    }
+    .target {
+      font-size: 11pt;
+      font-weight: 600;
+      color: var(--navy);
+      margin: 3px 0 5px;
+    }
+    .contact { font-size: 10pt; color: var(--muted); }
+    .contact a { color: var(--muted); text-decoration: none; }
+
+    h2 {
+      font-size: 11pt;
+      font-weight: 700;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-bottom: 1.25pt solid var(--rule);
+      padding-bottom: 2px;
+      margin: 12px 0 7px;
+    }
+
+    h3 {
+      font-size: 11pt;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 8px 0 4px;
+    }
+
+    .summary { text-align: justify; }
+
+    .skill-line { margin-bottom: 3px; }
+    .skill-line strong { color: var(--navy); font-weight: 700; }
+
+    .job {
+      margin-bottom: 10px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .job-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .job-title { font-weight: 700; }
+    .job-dates { font-size: 10pt; white-space: nowrap; color: var(--muted); }
+    .job-meta { font-style: italic; color: var(--muted); font-size: 10.5pt; }
+
+    ul { margin: 3px 0 0 18px; }
+    li { margin-bottom: 3px; }
+
+    .edu-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 4px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .certs li, .other li { margin-bottom: 2px; }
+
+    .page-break {
+      break-before: page;
+      page-break-before: always;
+    }
+
+    @page {
+      size: A4;
+      margin: 12mm;
+    }
+
+    @media print {
+      html, body {
+        background: #fff;
+        margin: 0;
+        padding: 0;
+      }
+      .no-print { display: none !important; }
+      .page {
+        width: auto;
+        min-height: 0;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+      }
+      a { color: inherit; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar no-print">
+    <button type="button" onclick="window.print()">Print / Save as PDF</button>
+    <span>In the print dialog: destination “Save as PDF”, paper A4, margins Default. Turn off “Headers and footers”.</span>
+  </div>
+
+  <main class="page">
+    <header>
+      <h1>Nishant Phule</h1>
+      <p class="target">Backend Engineer | AI-focused</p>
+      <p class="contact">
+        Nashik, India · 9960435035 ·
+        <a href="mailto:nishantphule12@gmail.com">nishantphule12@gmail.com</a><br />
+        <a href="https://linkedin.com/in/nishant-phule-b274ba1b7">linkedin.com/in/nishant-phule-b274ba1b7</a>
+        · <a href="https://github.com/Nishantphule">github.com/Nishantphule</a>
+      </p>
+    </header>
+
+    <section>
+      <h2>Summary</h2>
+      <p class="summary">Backend engineer targeting Backend Engineer / Backend Engineer (AI) roles. 2+ years shipping production Node.js and Django APIs, secure auth, and applied LLM features (OpenRouter, n8n). Promoted to Software Engineer in Dec 2025; converting legacy systems to React/Node and shipping an internal project-management product. Upskilling in AI engineering with Airtribe since Nov 2025. Led a small client team from Feb 2026.</p>
+    </section>
+
+    <section>
+      <h2>Skills</h2>
+      <p class="skill-line"><strong>Backend:</strong> Node.js, Express.js, Django, Python, REST APIs, MongoDB, MySQL, Sequelize</p>
+      <p class="skill-line"><strong>AI / automation:</strong> OpenRouter LLM integration, n8n agents, prompt + fallback design, embeddings</p>
+      <p class="skill-line"><strong>Security:</strong> Auth flows (JWT, OTP, TOTP/WebAuthn in product work), RBAC, API hardening, rate limiting</p>
+      <p class="skill-line"><strong>Cloud / DevOps:</strong> Docker, AWS, Git/GitHub, CI/CD basics, bash/cron, Postman</p>
+      <p class="skill-line"><strong>Frontend / mobile (supporting):</strong> React, React Native, Expo, Firebase, HTML/CSS</p>
+      <p class="skill-line"><strong>Payments:</strong> Razorpay (orders, signature verify, webhooks)</p>
+    </section>
+
+    <section>
+      <h2>Experience</h2>
+
+      <article class="job">
+        <div class="job-head">
+          <p class="job-title">Four Pillars Infotech India Pvt. Ltd. — Software Engineer</p>
+          <p class="job-dates">Dec 2025 – Present</p>
+        </div>
+        <p class="job-meta">Mumbai</p>
+        <ul>
+          <li>From Feb 2026, led a small engineering team on a client engagement — sprint/agile delivery, reviews, and feature releases.</li>
+          <li>Core contributor on legacy conversion to React and Node.js — services, UI, and production rollout.</li>
+          <li>NAD DigiLocker integration for secure document verification and authentication.</li>
+          <li>n8n flows for backup management and real-time alerting (applied GenAI/ops, not just chatbot demos).</li>
+          <li>Application security across the stack: authenticated API flows, role-based access control, input validation, and rate limiting; admin work on production portals.</li>
+          <li>Building and shipping the internal Project Management Tool (see Flagship): React, Node, MongoDB, Razorpay, OpenRouter LLMs — used internally and being scoped for launch.</li>
+        </ul>
+      </article>
+
+      <article class="job">
+        <div class="job-head">
+          <p class="job-title">Four Pillars Infotech India Pvt. Ltd. — Associate Software Engineer</p>
+          <p class="job-dates">Jun 2024 – Dec 2025</p>
+        </div>
+        <p class="job-meta">Mumbai</p>
+        <ul>
+          <li>Full-stack delivery across multiple MSBTE digital government portal projects; backend and architecture first, UI as needed.</li>
+          <li>Migrated 5 legacy PHP modules to Node.js and Django, improving scalability and maintainability.</li>
+          <li>Contributed to a Django admin dashboard (RBAC and analytics views) as part of a team.</li>
+        </ul>
+      </article>
+
+      <h3>Key government-portal work</h3>
+      <ul>
+        <li>NAD DigiLocker — secure document verification/authentication on production portals</li>
+        <li>Django admin dashboard — role-based access and analytics views</li>
+        <li>Legacy modernization — 5 PHP modules moved to Node.js and Django</li>
+        <li>Client web + mobile (in progress) — React/Node with Firebase and Expo push notifications</li>
+      </ul>
+    </section>
+
+    <section class="page-break">
+      <h2>Experience (continued)</h2>
+
+      <article class="job">
+        <div class="job-head">
+          <p class="job-title">Increditex Software Solutions Pvt. Ltd. — Jr. Software Developer</p>
+          <p class="job-dates">Feb 2024 – May 2024</p>
+        </div>
+        <p class="job-meta">Nashik</p>
+        <ul>
+          <li>Built Node.js/Express APIs with Sequelize for a matrimony platform, including data models and business workflows.</li>
+          <li>Shipped a React (Bootstrap) frontend for a sports-news site and supported deployment and QA.</li>
+        </ul>
+      </article>
+
+      <article class="job">
+        <div class="job-head">
+          <p class="job-title">Freelance Web Developer — Self-employed</p>
+          <p class="job-dates">Nov 2023 – Jan 2024</p>
+        </div>
+        <p class="job-meta">Nashik</p>
+        <ul>
+          <li>Delivered full-stack MERN applications with Razorpay payment integration, hosted on AWS.</li>
+          <li>Worked directly with clients on requirements, delivery, and production hosting.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section>
+      <h2>Flagship Project — Project Management Tool</h2>
+      <p class="job-meta">Internal product; being scoped for commercial launch · React, Node.js/Express, TypeScript, MongoDB</p>
+      <article class="job">
+        <ul>
+          <li><strong>Architecture:</strong> Multi-tenant Node/Express 5 + TypeScript API, MongoDB/Mongoose (Organization, Team, Task, User, billing, chat). JWT access + refresh in httpOnly cookies, org-scoped RBAC, Zod validation, Helmet, auth rate limits, Socket.IO for live notifications/presence. Redis used as an optional shared cache.</li>
+          <li><strong>Payments:</strong> Razorpay Standard Checkout — POST /api/billing/checkout creates an order, POST /api/billing/checkout/confirm plus HMAC-verified webhook on payment.captured / order.paid; PaymentOrder states created → awaiting_capture → paid/failed; plans Free / Pro / Pro+ (monthly, yearly, lifetime) with coupon support.</li>
+          <li><strong>LLM (OpenRouter, OpenAI-compatible SDK):</strong> POST /api/tasks/generate-description (title, description, tags, assignee hints); chat …/ai/summarize, …/ai/extract-tasks, …/ai/ask; suggest-only bug-severity classification; AI progress/EM digests. Failures return a deterministic fallback so the API does not 500.</li>
+          <li><strong>Product depth:</strong> Real-time org chat, GitHub activity tied to tasks, LLM-assisted repo security review, nightly Mongo backups, and plan-gated entitlements — shipped for internal use and being scoped as a commercial product.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section>
+      <h2>Education</h2>
+      <p class="edu-row"><span>AI-First Backend Engineer — Airtribe (in progress)</span><span>Nov 2025 – Present</span></p>
+      <p class="edu-row"><span>Full Stack Web Development — Guvi, IITM Research Park, Chennai</span><span>Jan 2022 – Aug 2023</span></p>
+      <p class="edu-row"><span>B.E. Mechanical Engineering — Gokhale Education Society's College of Engineering, Nashik · CGPA 7.83</span><span>Aug 2018 – Jun 2023</span></p>
+    </section>
+
+    <section>
+      <h2>Certifications</h2>
+      <ul class="certs">
+        <li>Full Stack Web Development — GeeksforGeeks</li>
+        <li>Additional: Udemy, 100xDevs</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Achievements / Other</h2>
+      <ul class="other">
+        <li>100 Days LeetCode badge — May 2024</li>
+        <li>Top 10, Upskill Mafia Online Web Hackathon</li>
+        <li>Volunteer / Animal Rescuer — Nov 2020 – Present</li>
+        <li>Languages: English (Professional), Hindi (Full Professional), Marathi (Native)</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nishant Phule — Cover Letter</title>
+  <style>
+    :root {
+      --ink: #1a1a1a;
+      --navy: #1B365D;
+      --muted: #3d3d3d;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: #e8eaed;
+      color: var(--ink);
+      font-family: Calibri, Arial, sans-serif;
+      font-size: 11pt;
+      line-height: 1.45;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .toolbar {
+      max-width: 210mm;
+      margin: 12px auto;
+      padding: 10px 14px;
+      background: #fff;
+      border: 1px solid #cfd4da;
+      font-size: 12px;
+      color: #333;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .toolbar button {
+      font: inherit;
+      background: var(--navy);
+      color: #fff;
+      border: 0;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+    .toolbar span { color: #555; }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto 24px;
+      padding: 12mm;
+      background: #fff;
+    }
+
+    .letterhead {
+      border-bottom: 1.5pt solid var(--navy);
+      padding-bottom: 8px;
+      margin-bottom: 18px;
+    }
+    .letterhead h1 {
+      font-size: 16pt;
+      color: var(--navy);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .letterhead p {
+      font-size: 10pt;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+    .letterhead a { color: var(--muted); text-decoration: none; }
+
+    .meta { margin-bottom: 16px; }
+    .meta p { margin-bottom: 2px; }
+    .re { font-weight: 700; margin: 12px 0 14px; }
+
+    p.body {
+      margin-bottom: 11px;
+      text-align: justify;
+    }
+
+    .signoff { margin-top: 18px; }
+    .signoff .name {
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: 14px;
+    }
+    .signoff .contact-block {
+      font-size: 10pt;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .signoff a { color: var(--muted); text-decoration: none; }
+
+    @page {
+      size: A4;
+      margin: 12mm;
+    }
+
+    @media print {
+      html, body {
+        background: #fff;
+        margin: 0;
+        padding: 0;
+      }
+      .no-print { display: none !important; }
+      .page {
+        width: auto;
+        min-height: 0;
+        margin: 0;
+        padding: 0;
+      }
+      a { color: inherit; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar no-print">
+    <button type="button" onclick="window.print()">Print / Save as PDF</button>
+    <span>Find-replace the {{PLACEHOLDERS}} per application. Print: A4, disable “Headers and footers”.</span>
+  </div>
+
+  <main class="page">
+    <header class="letterhead">
+      <h1>Nishant Phule</h1>
+      <p>Backend Engineer | AI-focused</p>
+      <p>
+        <a href="mailto:nishantphule12@gmail.com">nishantphule12@gmail.com</a>
+        · 9960435035 · Nashik, India
+      </p>
+    </header>
+
+    <div class="meta">
+      <!-- Swap the date per application. -->
+      <p>{{DATE}}</p>
+      <!-- Hiring manager name; use "Hiring Manager" if unknown. -->
+      <p>{{HIRING_MANAGER}}</p>
+      <!-- Target company. -->
+      <p>{{COMPANY_NAME}}</p>
+    </div>
+
+    <!-- Target role title, e.g. Backend Engineer (AI). -->
+    <p class="re">Re: Application for {{ROLE_TITLE}}</p>
+
+    <p>Dear {{HIRING_MANAGER}},</p>
+
+    <p class="body">
+      I am applying for the {{ROLE_TITLE}} role at {{COMPANY_NAME}}. I build backend systems that stay in production — APIs, auth, payments — and I have already shipped applied LLM features, not just tutorials. I am targeting Backend Engineer / Backend Engineer (AI) work where that mix is the job.
+    </p>
+
+    <p class="body">
+      I moved from mechanical engineering into software through a full-stack program at Guvi (IITM Research Park) and have been shipping production systems since late 2023. I started Airtribe’s AI-First Backend Engineer program in November 2025 and was promoted to Software Engineer at Four Pillars Infotech in December 2025. From February 2026 I have led a small engineering team on a client engagement. Since then I have been a core contributor on legacy conversion to React and Node, NAD DigiLocker integration, n8n backup-management flows, application security and admin, and an internal project-management product on Node.js, Express, and MongoDB. It includes Razorpay checkout with HMAC-verified webhooks, JWT/httpOnly-cookie auth, and OpenRouter-powered flows — AI task generation, chat summarization and task extraction, an in-thread assistant, and suggest-only bug triage — with deterministic fallbacks so a model failure never takes down the API. That is the proof I would walk through in an interview.
+    </p>
+
+    <p class="body">
+      Before the promotion I was an Associate Software Engineer from June 2024. In that period I migrated five legacy PHP modules to Node.js and Django and contributed to a Django admin dashboard with RBAC and analytics on government-facing portals.
+    </p>
+
+    <p class="body">
+      <!-- One or two sentences on why this company; keep it specific. -->
+      I am interested in {{COMPANY_NAME}} because {{WHY_THIS_COMPANY}}. The {{ROLE_TITLE}} role matches how I already work: backend ownership, production reliability, and LLM features that are productized rather than bolted on.
+    </p>
+
+    <p class="body">
+      I would welcome a conversation. I can share a 1-page or 2-page resume and walk through the project-management API end to end. Notice period: {{TODO}}.
+    </p>
+
+    <div class="signoff">
+      <p>Sincerely,</p>
+      <p class="name">Nishant Phule</p>
+      <p class="contact-block">
+        <a href="mailto:nishantphule12@gmail.com">nishantphule12@gmail.com</a> · 9960435035<br />
+        Nashik, India<br />
+        <a href="https://linkedin.com/in/nishant-phule-b274ba1b7">linkedin.com/in/nishant-phule-b274ba1b7</a>
+        · <a href="https://github.com/Nishantphule">github.com/Nishantphule</a>
+      </p>
+    </div>
+  </main>
+</body>
+</html>

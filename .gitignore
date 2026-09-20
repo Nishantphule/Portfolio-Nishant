@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.env
+server/.env
+.DS_Store
+Thumbs.db
+*.log
+.vite/
+client/dist/
+server/dist/
+resume-assets/verify/
