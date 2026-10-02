@@ -1260,17 +1260,35 @@ section.block h2 {
 }
 .bubble.error { border-color: var(--error); color: #ff8a9c; }
 .bubble.assistant .term-prefix { color: var(--lime); margin-right: 0.35rem; }
-.bubble a {
+.bubble-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  vertical-align: middle;
+  margin: 0.2rem 0.2rem 0.2rem 0;
+  min-height: 2.5rem;
+  padding: 0 0.7rem;
+  border: 1px solid color-mix(in srgb, var(--cyan) 45%, var(--line));
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--cyan) 10%, #101820);
   color: var(--cyan);
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
-  word-break: break-all;
+  text-decoration: none;
+  word-break: normal;
+  overflow-wrap: normal;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
-.bubble a:hover { color: var(--amber); }
-.bubble a:focus-visible {
+.bubble-link:hover {
+  color: var(--amber);
+  border-color: color-mix(in srgb, var(--amber) 50%, var(--line));
+  background: color-mix(in srgb, var(--amber) 8%, #101820);
+}
+.bubble-link:focus-visible {
   outline: 2px solid var(--cyan);
   outline-offset: 2px;
 }
+.bubble-link svg { flex-shrink: 0; }
 
 .chips-row {
   display: flex;
