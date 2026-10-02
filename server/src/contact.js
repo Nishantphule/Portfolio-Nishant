@@ -1,21 +1,11 @@
-import nodemailer from 'nodemailer';
 import { config } from './config.js';
+import { gmailConfigured, sendGmail } from './gmailMail.js';
 import { autoReplyHtml, autoReplyText, inboundHtml, inboundText } from './mailTemplates.js';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function mailConfigured() {
-  const { host, user, pass } = config.email;
-  return Boolean(host && user && pass);
-}
-
-function transporter() {
-  return nodemailer.createTransport({
-    host: config.email.host,
-    port: config.email.port,
-    secure: config.email.secure,
-    auth: { user: config.email.user, pass: config.email.pass },
-  });
+  return gmailConfigured() && Boolean(fromAddress() && config.email.to);
 }
 
 function fromAddress() {
@@ -104,22 +94,22 @@ export function parseContact(body) {
 export async function sendContactEmails(input) {
   const { name, email, company, message, page, userAgent } = input;
   const when = new Date().toISOString();
-  const mailer = transporter();
+  const from = fromAddress();
   const payload = { name, email, company, message, page, userAgent, when };
 
-  await mailer.sendMail({
-    from: fromAddress(),
+  await sendGmail({
+    from,
     to: config.email.to,
     replyTo: email,
     subject: `[Portfolio] Contact · ${name}`,
-    headers: { 'X-Portfolio-Source': 'contact-form' },
+    extraHeaders: { 'X-Portfolio-Source': 'contact-form' },
     text: inboundText(payload),
     html: inboundHtml(payload),
   });
 
   try {
-    await mailer.sendMail({
-      from: fromAddress(),
+    await sendGmail({
+      from,
       to: email,
       subject: 'Thanks for reaching out — Nishant Phule',
       text: autoReplyText({ name }),

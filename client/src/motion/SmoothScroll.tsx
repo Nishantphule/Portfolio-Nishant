@@ -74,6 +74,7 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
         easing: (t: number) => Math.min(1, 1.001 - 2 ** (-10 * t)),
         smoothWheel: true,
         prevent: (node: HTMLElement) => {
+          if (node.closest('.chat-panel, .project-modal-card')) return true;
           const pane = node.closest('[data-lenis-prevent]');
           if (!(pane instanceof HTMLElement)) return false;
           return paneCanScroll(pane, lastDeltaY, lastDeltaX);
@@ -97,6 +98,11 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
         registerScroller(null);
         lenis.destroy();
       };
+
+      if (!alive) {
+        destroy();
+        destroy = () => {};
+      }
     })();
 
     return () => {

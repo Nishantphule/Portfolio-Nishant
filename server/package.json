@@ -4,13 +4,14 @@
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "node --watch src/index.js"
+    "dev": "node --watch src/index.js",
+    "gmail:auth": "node src/gmailAuth.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^5.1.0",
     "express-rate-limit": "^7.5.0",
-    "nodemailer": "^10.0.10"
+    "googleapis": "^164.1.0"
   }
 }

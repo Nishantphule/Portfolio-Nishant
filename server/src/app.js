@@ -60,7 +60,7 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
   }
   if (!mailConfigured()) {
     return res.status(503).json({
-      error: 'Mail is not configured yet. Set EMAIL_HOST, EMAIL_USER, and EMAIL_PASS.',
+      error: 'Mail is not configured yet. Set GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and GOOGLE_REFRESH_TOKEN (run npm run gmail:auth in server/).',
       code: 'MAIL_NOT_CONFIGURED',
     });
   }
@@ -78,10 +78,10 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
     });
     return res.json({ ok: true });
   } catch (err) {
-    console.warn('Contact SMTP failed', err instanceof Error ? err.message : err);
+    console.warn('Contact Gmail send failed', err instanceof Error ? err.message : err);
     return res.status(502).json({
       error: 'Could not send the message. Try WhatsApp or email me directly.',
-      code: 'SMTP_FAILED',
+      code: 'MAIL_FAILED',
     });
   }
 });

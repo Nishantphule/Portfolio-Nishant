@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { suggestedQuestions } from '../data/profile';
+import { suggestedQuestions, whatsappHref } from '../data/profile';
 import { useChatOpen } from '../hooks/useChatOpen';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 
@@ -9,6 +9,60 @@ type ChatRole = 'user' | 'assistant';
 type ChatMessage = { role: ChatRole; content: string; error?: boolean; stream?: boolean };
 
 const apiBase = import.meta.env.VITE_API_URL ?? '';
+
+const LINK_RE =
+  /(https?:\/\/[^\s<>"'`]+|mailto:[^\s<>"'`]+|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}|www\.[^\s<>"'`]+)/gi;
+
+function trimUrl(raw: string) {
+  return raw.replace(/[),.;!?]+$/g, '');
+}
+
+function hrefFor(raw: string) {
+  const token = trimUrl(raw);
+  if (/^mailto:/i.test(token) || /^[^\s@]+@[^\s@]+\.[^\s@]+$/i.test(token)) {
+    return `mailto:${token.replace(/^mailto:/i, '')}`;
+  }
+  const candidate = /^www\./i.test(token) ? `https://${token}` : token;
+  try {
+    const url = new URL(candidate);
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') return null;
+    return url.href;
+  } catch {
+    return null;
+  }
+}
+
+function linkify(text: string) {
+  const parts: (string | { href: string; label: string })[] = [];
+  let last = 0;
+  const re = new RegExp(LINK_RE.source, 'gi');
+  for (const match of text.matchAll(re)) {
+    const raw = match[0];
+    const start = match.index ?? 0;
+    if (start > last) parts.push(text.slice(last, start));
+    const href = hrefFor(raw);
+    const core = trimUrl(raw);
+    const tail = raw.slice(core.length);
+    if (href) {
+      parts.push({ href, label: core });
+      if (tail) parts.push(tail);
+    } else parts.push(raw);
+    last = start + raw.length;
+  }
+  if (last < text.length) parts.push(text.slice(last));
+  return parts;
+}
+
+function wantsMessaging(q: string) {
+  return /\b(sms|whats?app|imessage)\b|text (him|me|you|nishant)|send (him |a |me )?text|message (him|me|you|nishant)|how (do i |to )?(text|sms|message|contact)|reach .{0,24}(phone|whatsapp|sms)|call (him|you|nishant)/i.test(
+    q,
+  );
+}
+
+function withWhatsAppLink(userText: string, reply: string) {
+  if (!wantsMessaging(userText) || /wa\.me\//i.test(reply)) return reply;
+  return `${reply.trim()}\n${whatsappHref()}`;
+}
 
 function StreamBody({ text, animate }: { text: string; animate: boolean }) {
   const reduced = usePrefersReducedMotion();
@@ -29,7 +83,25 @@ function StreamBody({ text, animate }: { text: string; animate: boolean }) {
     return () => window.clearInterval(id);
   }, [text, animate, reduced]);
 
-  return <>{shown}</>;
+  return (
+    <>
+      {linkify(shown).map((part, i) =>
+        typeof part === 'string' ? (
+          <span key={i}>{part}</span>
+        ) : (
+          <a
+            key={`${part.href}-${i}`}
+            href={part.href}
+            target={part.href.startsWith('mailto:') ? undefined : '_blank'}
+            rel={part.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {part.label}
+          </a>
+        ),
+      )}
+    </>
+  );
 }
 
 export default function ChatWidget() {
@@ -100,7 +172,9 @@ export default function ChatWidget() {
       if (!res.ok) {
         throw new Error(data?.error || `Request failed (${res.status})`);
       }
-      setMessages([...next, { role: 'assistant', content: data?.reply || 'No reply.', stream: true }]);
+      const raw = data?.reply || 'No reply.';
+      const userText = next[next.length - 1]?.content ?? content;
+      setMessages([...next, { role: 'assistant', content: withWhatsAppLink(userText, raw), stream: true }]);
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Could not reach the chat service.';
       setMessages([...next, { role: 'assistant', content: msg, error: true }]);
