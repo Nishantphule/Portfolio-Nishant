@@ -126,7 +126,7 @@ app.post('/api/chat', chatLimiter, async (req, res) => {
       body: JSON.stringify({
         model: config.openRouterModel,
         temperature: 0.4,
-        max_tokens: 500,
+        max_tokens: 280,
         messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...history],
       }),
     });

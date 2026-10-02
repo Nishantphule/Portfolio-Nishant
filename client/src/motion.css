@@ -767,7 +767,6 @@
   .icon-row a,
   .nav-links a::after { transition: none; }
   .card-lift:hover { transform: none; box-shadow: none; }
-  .galaxy-flight { display: none; }
   .milestone-mark,
   .milestone-mark::after,
   .chat-toggle-pulse,

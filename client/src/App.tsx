@@ -21,7 +21,7 @@ import { ChatOpenProvider, useChatOpen } from './hooks/useChatOpen';
 import JsonLd from './components/JsonLd';
 
 const ChatWidget = lazy(() => import('./components/ChatWidget'));
-const SkillGalaxy = lazy(() => import('./components/SkillGalaxy'));
+const SkillConsole = lazy(() => import('./components/skills/SkillConsole'));
 
 function HeaderAsk() {
   const { openChat } = useChatOpen();
@@ -105,12 +105,12 @@ function AppShell() {
           <ExperienceTimeline />
           <Projects />
 
-          <section className="block skills-stage" id="skills" data-accent="violet">
+          <section className="block skills-stage" id="skills" data-accent="violet" aria-label="Skills — live API console">
             <HeadingReveal>
               <h2>Skills</h2>
             </HeadingReveal>
             <Suspense fallback={null}>
-              <SkillGalaxy />
+              <SkillConsole />
             </Suspense>
           </section>
 
