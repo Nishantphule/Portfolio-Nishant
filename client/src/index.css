@@ -700,7 +700,7 @@ section.block h2 {
   border-right: 1px solid var(--console-divider);
   overflow-x: hidden;
   overflow-y: auto;
-  overscroll-behavior: contain;
+  overscroll-behavior-y: auto;
   touch-action: pan-y;
   -webkit-overflow-scrolling: touch;
   position: sticky;
@@ -881,7 +881,7 @@ section.block h2 {
   min-height: 0;
   overflow-x: hidden;
   overflow-y: auto;
-  overscroll-behavior: contain;
+  overscroll-behavior-y: auto;
   touch-action: pan-y;
   -webkit-overflow-scrolling: touch;
   padding: 0 0.75rem 0.75rem;
